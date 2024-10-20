@@ -1,2 +1,2 @@
-# Pr-tica---Fun-o-Editar-Atualizar
+# Pratica - funcao - editar - atualizar
 DESENVOLVIMENTO DE API BACK-END
