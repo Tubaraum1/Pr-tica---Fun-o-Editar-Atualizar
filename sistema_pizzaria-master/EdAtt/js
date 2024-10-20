@@ -1,0 +1,43 @@
+// edit_pizza.js
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('editPizzaForm');
+    const mensagem = document.getElementById('mensagem');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const pizzaId = document.getElementById('pizzaId').value;
+        const pizzaData = {
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            price: document.getElementById('price').value
+        };
+
+        // Enviar os dados de atualização via API
+        fetch(`http://localhost:8000/api/pizzas/${pizzaId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}` // se necessário
+            },
+            body: JSON.stringify(pizzaData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 200) {
+                mensagem.textContent = 'Pizza atualizada com sucesso!';
+                // Redirecionar para a lista de pizzas ou outra página
+                setTimeout(() => {
+                    window.location.href = 'pizzas.html'; // exemplo de redirecionamento
+                }, 2000);
+            } else {
+                // Erro na atualização
+                mensagem.textContent = 'Erro ao atualizar: ' + data.message;
+            }
+        })
+        .catch(error => {
+            console.log("🚀 ~ form.addEventListener ~ error:", error);
+            mensagem.textContent = 'Erro na comunicação com a API. Tente novamente.';
+        });
+    });
+});
